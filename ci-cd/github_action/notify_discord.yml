@@ -1,0 +1,78 @@
+name: Notify Discord through Webhook
+
+on:
+  workflow_call:
+    inputs:
+      status:
+        description: "The status of the workflow (e.g., started, success, failure)"
+        required: true
+        type: string
+      repository:
+        description: "The repository that triggered the workflow"
+        required: true
+        type: string
+      workflow:
+        description: "The name of the workflow that triggered the workflow"
+        required: true
+        type: string
+      actor:
+        description: "The user or entity that triggered the workflow"
+        required: true
+        type: string
+      event_name:
+        description: "The name of the event that triggered the workflow"
+        required: true
+        type: string
+      ref:
+        description: "The Git ref that triggered the workflow"
+        required: true
+        type: string
+      sha:
+        description: "The commit SHA that triggered the workflow"
+        required: true
+        type: string
+      run_number:
+        description: "The run number of the workflow that triggered the workflow"
+        required: true
+        type: number
+      url:
+        description: "The URL of the workflow run"
+        required: true
+        type: string
+
+jobs:
+  notify:
+    name: Notify Discord
+
+    runs-on: ubuntu-latest
+
+    env:
+      DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+    steps:
+      - name: Send Discord notification on success
+        if: ${{ github.event.inputs.status == 'success' }}
+        run: |
+          curl -v \
+          -H "Content-Type: application/json" \
+          -X POST \
+          -d '{"content":"Deployment to '${{ github.ref }}' was successful. Image: my-app:'${{ github.sha }}'"}' \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+      - name: Send Discord notification on failure
+        if: ${{ github.event.inputs.status == 'failure' }}
+        run: |
+          curl -v \
+          -H "Content-Type: application/json" \
+          -X POST \
+          -d '{"content":"Deployment to '${{ github.ref }}' failed. Image: my-app:'${{ github.sha }}'"}' \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+      - name: Send Discord notification on workflow started
+        if: ${{ github.event.inputs.status == 'started' }}
+        run: |
+          curl -v \
+          -H "Content-Type: application/json" \
+          -X POST \
+          -d '{"content":"[Workflow Started] Workflow '${{ inputs.workflow }}' has been triggered in the repository '${{ inputs.repository }}' by '${{ inputs.actor }}' via '${{ inputs.event_name }}' on ${{ inputs.ref }}. Run #${{ inputs.run_number }}: ${{ inputs.url }}"}' \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
