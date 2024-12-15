@@ -51,7 +51,7 @@ jobs:
 
     steps:
       - name: Send Discord notification on success
-        if: ${{ github.event.inputs.status == 'success' }}
+        if: ${{ inputs.status == 'success' }}
         run: |
           curl -v \
           -H "Content-Type: application/json" \
@@ -60,7 +60,7 @@ jobs:
           ${{ secrets.DISCORD_WEBHOOK_URL }}
 
       - name: Send Discord notification on failure
-        if: ${{ github.event.inputs.status == 'failure' }}
+        if: ${{ inputs.status == 'failure' }}
         run: |
           curl -v \
           -H "Content-Type: application/json" \
@@ -69,7 +69,7 @@ jobs:
           ${{ secrets.DISCORD_WEBHOOK_URL }}
 
       - name: Send Discord notification on workflow started
-        if: ${{ github.event.inputs.status == 'started' }}
+        if: ${{ inputs.status == 'started' }}
         run: |
           curl -v \
           -H "Content-Type: application/json" \
