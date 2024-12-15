@@ -1,6 +1,7 @@
 name: Notify Discord through Webhook
 
 on:
+  workflow_dispatch: 
   workflow_call:
     inputs:
       status:
