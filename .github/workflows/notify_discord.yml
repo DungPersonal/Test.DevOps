@@ -1,6 +1,12 @@
 name: Notify Discord through Webhook
 
 on:
+  workflow_dispatch: 
+    inputs:
+      status: 
+        description: "The status of the workflow (e.g., started, success, failure)"
+        required: true
+        type: string
   workflow_call:
     inputs:
       status:
