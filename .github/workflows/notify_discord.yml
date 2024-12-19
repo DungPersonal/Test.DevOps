@@ -62,7 +62,7 @@ jobs:
           curl -v \
           -H "Content-Type: application/json" \
           -X POST \
-          -d "{\"content\":\"[Workflow Started] Workflow '${{ inputs.workflow }}' in the repository '${{ inputs.repository }}' by '${{ inputs.actor }}' via '${{ inputs.event_name }}' has completed successfully. Ref: ${{ inputs.ref }}. Commit: ${{ inputs.sha }}. Run #${{ inputs.run_number }}: ${{ inputs.url }}\"}" \
+          -d "{\"content\":\"[Workflow Started] \nWorkflow '${{ inputs.workflow }}' in the repository '${{ inputs.repository }}' by '${{ inputs.actor }}' via '${{ inputs.event_name }}' has completed successfully. \nRef: ${{ inputs.ref }}. \nCommit: ${{ inputs.sha }}. \nRun #${{ inputs.run_number }}: ${{ inputs.url }}\"}" \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
 
       - name: Send Discord notification on failure
@@ -71,7 +71,7 @@ jobs:
           curl -v \
           -H "Content-Type: application/json" \
           -X POST \
-          -d "{\"content\":\"[Workflow Started] Workflow '${{ inputs.workflow }}' in the repository '${{ inputs.repository }}' by '${{ inputs.actor }}' via '${{ inputs.event_name }}' has failed. Ref: ${{ inputs.ref }}. Commit: ${{ inputs.sha }}. Run #${{ inputs.run_number }}: ${{ inputs.url }}\"}" \
+          -d "{\"content\":\"[Workflow Started] \nWorkflow '${{ inputs.workflow }}' in the repository '${{ inputs.repository }}' by '${{ inputs.actor }}' via '${{ inputs.event_name }}' has failed. \nRef: ${{ inputs.ref }}. \nCommit: ${{ inputs.sha }}. \nRun #${{ inputs.run_number }}: ${{ inputs.url }}\"}" \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
 
       - name: Send Discord notification on workflow started
@@ -80,5 +80,5 @@ jobs:
           curl -v \
           -H "Content-Type: application/json" \
           -X POST \
-          -d "{\"content\":\"[Workflow Started] Workflow '${{ inputs.workflow }}' has been triggered in the repository '${{ inputs.repository }}' by '${{ inputs.actor }}' via '${{ inputs.event_name }}' on '${{ inputs.ref }}'. Run #${{ inputs.run_number }}: ${{ inputs.url }}\"}" \
+          -d "{\"content\":\"[Workflow Started] \nWorkflow '${{ inputs.workflow }}' has been triggered in the repository '${{ inputs.repository }}' by '${{ inputs.actor }}' via '${{ inputs.event_name }}' on '${{ inputs.ref }}'. \nRun #${{ inputs.run_number }}: ${{ inputs.url }}\"}" \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
